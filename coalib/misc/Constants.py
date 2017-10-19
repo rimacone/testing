@@ -3,7 +3,7 @@
 import appdirs
 import os
 import re
-
+import logging
 from coalib import VERSION
 
 
@@ -109,7 +109,17 @@ language_definitions = os.path.join(coalib_root,
                                     'languages',
                                     'definitions')
 
-system_coafile = os.path.join(coalib_root, 'system_coafile')
+# system_coafile = os.path.join(coalib_root, 'system_coafile')
+# Checks for default_coafile in coala/coalib
+for file_lists in os.listdir(coalib_root):
+    for file in file_lists:
+        if file == 'default_coafile':
+            system_coafile = os.path.join(coalib_root, 'default_coafile')
+        else:
+            system_coafile = os.path.join(coalib_root, 'base_coafile')
+
+if system_coafile == os.path.join(coalib_root, 'default_coafile'):
+    logging.warning('Use of file named default_coafile is deprecated.')
 
 user_coafile = os.path.join(os.path.expanduser('~'), '.coarc')
 
